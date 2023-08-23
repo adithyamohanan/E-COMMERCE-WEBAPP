@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <!-- Basic -->
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Mobile Metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <!-- Site Metas -->
+      <meta name="keywords" content="" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="">
+      <title>Famms - Fashion HTML Template</title>
+      <!-- bootstrap core css -->
+      <link rel="stylesheet" type="text/css" href="{% static '/css/bootstrap.css' %}" />
+      <!-- font awesome style -->
+      <link href="{% static '/css/font-awesome.min.css' %}" rel="stylesheet" />
+      <script src="https://kit.fontawesome.com/a034022bfc.js" crossorigin="anonymous"></script>
+      <!-- Custom styles for this template -->
+      <link href="{% static '/css/style.css' %}" rel="stylesheet" />
+      <!-- responsive style -->
+      <link href="{% static '/css/responsive.css' %}" rel="stylesheet" />
+      <style>
+        .form-field{
+	        width:250px;
+	        display: inline-block;
+	        padding: 5px;
+        } 
+        .box-element{
+	        box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	        background-color: #fff;
+	        border-radius: 4px;
+	        padding: 10px;
+        }
+        .row-image{
+            width: 100px;
+        }
+        .cart-row{
+	        display: flex;
+            align-items: flex-stretch;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ececec;
+
+}
+
+      </style>
+   </head>
+
+   <body>
+
+ <!-- header part -->
+
+ {% include 'inc/navbar.html' %}
+
+
+ <!-- header close section -->
+
+
+ <!-- Main section-->
+ {% block content %}
+<div class="container pt-5">
+ <div class="row">
+    <div class="col-lg-6">
+        <div class="box-element" id="form-wrapper">
+            <form method="post">
+                {% csrf_token %}
+                {{ shipping_form.as_p }}
+                <button class="btn btn-outline-dark btn-round mx-auto d-block" type="submit">Save Address</button>
+            </form>
+        </div>
+    </div>
+    
+
+
+
+<div class="col-lg-6">
+    <div class="box-element">
+        <a  class="btn btn-outline-dark" href="{% url 'cart_page' %}">&#x2190; Back to Cart</a>
+        <hr>
+        <h3>Order Summary</h3>
+        <hr>
+      {% for item in all_order %}
+        <div class="cart-row">
+            <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+            <div style="flex:2"><p>{{item.product.name}}</p></div>
+            <div style="flex:1"><p>{{ item.product.price|floatformat }}</p></div>
+            <div style="flex:1"><p>{{ item.quantity }}</p></div>
+        </div>
+        {% endfor %}
+        
+       
+        <h5>Items: {{total_no_of_item}}  </h5>
+        <h5>Total: ${{total_price|floatformat}} </h5><br>
+        <hr>
+
+
+        <div class="payment-form text-center">
+            <form method="POST" action="{% url 'update_order_status' %}">
+                {% csrf_token %}
+                <label for="payment_method">Select Payment Method:</label>
+                <select name="payment_option" id="payment_option">
+                    <option value="cod">Cash on Delivery</option>
+                    <option value="credit_card">Credit card</option>
+                
+            </select><br><br>
+            <input type="hidden" name="checkout_redirect" value="{% url 'track_order' %}">
+            <button class="btn btn-outline-dark btn-round " type="submit">Proceed Payment</button>
+        
+        
+            </form>
+        
+        </div>
+    </div>
+    
+</div>
+</div>
+
+</div><br><br>
+        
+    
+ 
+
+ {% endblock content %}
+<!-- Main section close -->
+
+<!-- footer part -->
+ {% include 'inc/footer.html' %}
+
+ <!-- jQery -->
+ <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+ <!-- popper js -->
+ <script src="{% static '/js/popper.min.js' %}"></script>
+ <!-- bootstrap js -->
+ <script src="{% static '/js/bootstrap.js' %}"></script>
+ <!-- custom js -->
+ <script src="{% static '/js/custom.js' %}"></script>
+
+
+</body>
+</html>

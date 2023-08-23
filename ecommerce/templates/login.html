@@ -1,0 +1,47 @@
+{% extends 'contact.html' %}
+{% load static %}
+
+{% block login %}
+
+<section class="inner_page_head">
+    <div class="container_fuild">
+       <div class="row">
+          <div class="col-md-12">
+             <div class="full">
+                <h3>SIGN IN</h3>
+                <h6>Hello, Welcome to your account</h6>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+ <!-- end inner page section -->
+ <!-- why section -->
+ <section class="why_section layout_padding">
+    <div class="container">
+    
+       <div class="row">
+          <div class="col-lg-8 offset-lg-2">
+             <div class="full">
+               {% for message in messages %}
+                <h6 style="color: red;">{{message}}</h6>
+                {% endfor %}
+                <form action=""method="post">
+                  {% csrf_token %}
+                   <fieldset>
+                      
+                      <input type="text" placeholder="Username" name="username" required /><br>
+                      
+                      <input type="password"placeholder="Password" name="password" id=""><br>
+                      
+                      <input type="submit" value="Login"onclick="login()" /><br>
+                   </fieldset><br>
+                   <h6 class="text-center"><a href="{% url 'register' %}">Don't have an account? Register here </h6></a>
+                </form>
+             </div>
+          </div>
+       </div>
+    </div>
+ </section>
+
+{% endblock login %}
